@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ui_constants.dart';
+import '../../ui_constants.dart';
 
 class PlainText extends StatelessWidget {
   const PlainText({

@@ -44,4 +44,6 @@ abstract class UIConstants {
   static const titleContainerOpacity = 0.7;
   static const columnPadding = 20.0;
   static const buttonBorderRadius = 5.0;
+  static const moviesListImageSize = 150.0;
+  static const movieImageBorderRadius = 10.0;
 }

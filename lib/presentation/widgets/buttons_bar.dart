@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
+import '../../ui_constants.dart';
 import 'plain_text.dart';
-import 'ui_constants.dart';
 
 class ButtonsBar extends StatefulWidget {
-  const ButtonsBar({super.key});
+  ButtonsBar({
+    super.key,
+    required this.voteAverage,
+    required this.voteCount,
+  });
+
+  num voteAverage;
+  int voteCount;
 
   @override
   State<ButtonsBar> createState() => _ButtonsBar();
 }
 
 class _ButtonsBar extends State<ButtonsBar> {
-  int _counter = 0;
-  static const String playTrailer = 'Play trailer';
+  static const String playTrailer = 'Play';
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      widget.voteCount++;
     });
   }
 
@@ -44,14 +50,28 @@ class _ButtonsBar extends State<ButtonsBar> {
           ),
         ),
         Row(
+          children: [
+            const Icon(
+              Icons.star,
+              color: UIConstants.contrastColor,
+            ),
+            UIConstants.listIconSpace,
+            PlainText(
+              text: widget.voteAverage.toString(),
+            ),
+          ],
+        ),
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton.outlined(
                 onPressed: _incrementCounter,
-                icon: const Icon(Icons.favorite,
-                    color: UIConstants.contrastColor)),
+                icon: const Icon(
+                  Icons.favorite,
+                  color: UIConstants.contrastColor,
+                )),
             PlainText(
-              text: '$_counter',
+              text: widget.voteCount.toString(),
             )
           ],
         ),
