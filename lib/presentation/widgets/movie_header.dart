@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'ui_constants.dart';
+import '../../ui_constants.dart';
 
 class MovieHeader extends StatelessWidget {
-  const MovieHeader({super.key, required this.backdrop, required this.title});
+  const MovieHeader({
+    super.key,
+    required this.backdrop,
+    required this.title,
+  });
 
   final String backdrop;
   final String title;
@@ -12,11 +16,15 @@ class MovieHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image(
-          image: AssetImage(
-            backdrop,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(
+            UIConstants.movieImageBorderRadius,
           ),
-          fit: BoxFit.cover,
+          child: Image(
+            image: NetworkImage(
+              backdrop,
+            ),
+          ),
         ),
         Positioned(
           bottom: UIConstants.titlePositionBottom,
