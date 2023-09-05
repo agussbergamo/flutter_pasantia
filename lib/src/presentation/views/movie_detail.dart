@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../interfaces/i_repository.dart';
-import '../../models/genres_model.dart';
-import '../../models/movie.dart';
-import '../../repositories/genre_repository.dart';
-import '../../ui_constants.dart';
+import '../../core/util/ui_constants.dart';
+import '../../domain/entity/genres_model.dart';
+import '../../data/repositories/genre_repository.dart';
+import '../../domain/entity/movie.dart';
+import '../../domain/repository/i_repository.dart';
 import '../widgets/buttons_bar.dart';
 import '../widgets/movie_header.dart';
 import '../widgets/movie_info.dart';

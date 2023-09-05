@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import '../interfaces/i_repository.dart';
-import '../models/movies_model.dart';
+import '../../domain/repository/i_repository.dart';
+import '../../domain/entity/movies_model.dart';
 
 class MovieRepository implements IRepository<MoviesModel> {
   @override
