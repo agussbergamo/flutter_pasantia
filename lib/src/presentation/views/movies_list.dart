@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../interfaces/i_repository.dart';
-import '../../models/movies_model.dart';
-import '../../repositories/movie_repository.dart';
-import '../../ui_constants.dart';
+import '../../core/util/ui_constants.dart';
+import '../../domain/entity/movies_model.dart';
+import '../../data/repositories/movie_repository.dart';
+import '../../domain/repository/i_repository.dart';
 import '../widgets/movie_list_header.dart';
 import '../widgets/movie_list_item.dart';
 import '../widgets/plain_text.dart';

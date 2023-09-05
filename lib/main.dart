@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'presentation/pages/movie_detail.dart';
-import 'presentation/pages/movies_list.dart';
+import 'src/presentation/views/movie_detail.dart';
+import 'src/presentation/views/movies_list.dart';
 
 void main() {
   runApp(
@@ -9,7 +9,7 @@ void main() {
       initialRoute: MoviesList.routeName,
       routes: {
         MoviesList.routeName: (context) => const MoviesList(),
-        MovieDetail.routeName: (context) => MovieDetail(),
+        MovieDetail.routeName: (context) => const MovieDetail(),
       },
     ),
   );

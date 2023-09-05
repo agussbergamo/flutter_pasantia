@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tmdb_agustina/presentation/pages/movie_detail.dart';
 
-import '../../models/movie.dart';
-import '../../ui_constants.dart';
+import '../../core/util/ui_constants.dart';
+import '../../domain/entity/movie.dart';
+import '../views/movie_detail.dart';
 import 'plain_text.dart';
 
 class MovieListItem extends StatelessWidget {
