@@ -8,12 +8,12 @@ import '../../domain/entity/movie_event.dart';
 import '../bloc/i_movies_bloc.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_progress_indicator.dart';
+import '../widgets/movie_grid_item.dart';
 import '../widgets/movie_list_header.dart';
-import '../widgets/movie_list_item.dart';
 import '../widgets/msg_widget.dart';
 
-class MoviesList extends StatefulWidget {
-  MoviesList({
+class MoviesGrid extends StatefulWidget {
+  MoviesGrid({
     super.key,
     required this.moviesBloc,
     required this.title,
@@ -25,10 +25,10 @@ class MoviesList extends StatefulWidget {
   final Endpoint endpoint;
 
   @override
-  State<MoviesList> createState() => _MoviesListState();
+  State<MoviesGrid> createState() => MoviesGridState();
 }
 
-class _MoviesListState extends State<MoviesList> {
+class MoviesGridState extends State<MoviesGrid> {
   @override
   void initState() {
     super.initState();
@@ -55,7 +55,10 @@ class _MoviesListState extends State<MoviesList> {
             status: Status.loading,
           ),
           stream: widget.moviesBloc.moviesStream,
-          builder: (BuildContext context, AsyncSnapshot<MovieEvent> snapshot) {
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<MovieEvent> snapshot,
+          ) {
             Status status = snapshot.data!.status;
             switch (status) {
               case Status.loading:
@@ -68,17 +71,18 @@ class _MoviesListState extends State<MoviesList> {
                     ),
                     UIConstants.sectionSpace,
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: snapshot.data?.moviesList?.length ?? 0,
-                        itemBuilder: (
-                          BuildContext context,
-                          int index,
-                        ) {
-                          return MovieListItem(
+                      child: GridView.count(
+                        crossAxisCount: UIConstants.gridRowCount,
+                        crossAxisSpacing: UIConstants.gridHorizontalSpace,
+                        mainAxisSpacing: UIConstants.gridVerticalSpace,
+                        childAspectRatio: UIConstants.gridAspectRatio,
+                        children: List.generate(
+                            snapshot.data?.moviesList?.length ?? 0, (index) {
+                          return MovieGridItem(
                             moviesList: snapshot.data!.moviesList!,
                             index: index,
                           );
-                        },
+                        }),
                       ),
                     ),
                   ],

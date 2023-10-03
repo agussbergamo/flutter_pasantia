@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
 
+import '../../core/parameter/status.dart';
+import '../../core/util/genres_utils.dart';
+import '../../core/util/string_constants.dart';
 import '../../core/util/ui_constants.dart';
-import '../../domain/entity/genres_model.dart';
-import '../../data/repositories/genre_repository.dart';
+import '../../domain/entity/genre_event.dart';
 import '../../domain/entity/movie.dart';
-import '../../domain/repository/i_repository.dart';
+import '../bloc/i_genres_bloc.dart';
 import '../widgets/buttons_bar.dart';
+import '../widgets/custom_progress_indicator.dart';
 import '../widgets/movie_header.dart';
 import '../widgets/movie_info.dart';
 import '../widgets/movie_overview.dart';
-import '../widgets/plain_text.dart';
-import 'movies_list.dart';
+import '../widgets/msg_widget.dart';
 
 class MovieDetail extends StatefulWidget {
-  const MovieDetail({super.key});
+  MovieDetail({
+    super.key,
+    required this.genresBloc,
+  });
 
-  static const String routeName = '/movieDetail';
+  final IGenresBloc genresBloc;
 
   @override
   State<MovieDetail> createState() => _MovieDetailState();
 }
 
 class _MovieDetailState extends State<MovieDetail> {
-  late Future<GenresModel> futureGenres;
-  final IRepository<GenresModel> repository = GenreRepository();
-
   @override
   void initState() {
-    futureGenres = repository.getModel();
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.genresBloc.getGenres();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Movie movie = args['movie'];
     return SafeArea(
       child: Scaffold(
         backgroundColor: UIConstants.backgroundColor,
@@ -44,13 +52,11 @@ class _MovieDetailState extends State<MovieDetail> {
                 leading: IconButton(
                   icon: const Icon(
                     Icons.chevron_left,
+                    key: Key('appBarIcon'),
                     color: UIConstants.contrastColor,
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      MoviesList.routeName,
-                    );
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -63,7 +69,6 @@ class _MovieDetailState extends State<MovieDetail> {
                   UIConstants.columnPadding,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ButtonsBar(
@@ -75,35 +80,41 @@ class _MovieDetailState extends State<MovieDetail> {
                       overviewText: movie.overview,
                     ),
                     UIConstants.sectionSpace,
-                    FutureBuilder<GenresModel>(
-                      future: futureGenres,
+                    StreamBuilder<GenreEvent>(
+                      initialData: GenreEvent(
+                        status: Status.loading,
+                      ),
+                      stream: widget.genresBloc.genresStream,
                       builder: (
                         BuildContext context,
-                        AsyncSnapshot<GenresModel> snapshot,
+                        AsyncSnapshot<GenreEvent> snapshot,
                       ) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: PlainText(
-                                text: '${snapshot.error}',
-                              ),
-                            );
-                          } else {
+                        Status status = snapshot.data!.status;
+                        switch (status) {
+                          case Status.loading:
+                            return const CustomProgressIndicator();
+                          case Status.success:
                             return MovieInfo(
                               originalTitleText: movie.originalTitle,
                               originalLanguageText: movie.originalLanguage,
                               dateText: movie.releaseDate,
-                              genresText: snapshot.data!
-                                  .convertIntToString(movie.genres)
+                              genresText: movie.genres
+                                  .convertIntToString(
+                                      snapshot.data!.genresList!)
                                   .join(", "),
                               ratedText: movie.rated,
                             );
-                          }
-                        } else {
-                          return const CircularProgressIndicator();
+                          case Status.error:
+                            return MsgWidget(
+                              text: '${snapshot.error.toString()}',
+                            );
+                          case Status.empty:
+                            return MsgWidget(
+                              text: StringConstants.emptyMsg,
+                            );
                         }
                       },
-                    )
+                    ),
                   ],
                 ),
               ),

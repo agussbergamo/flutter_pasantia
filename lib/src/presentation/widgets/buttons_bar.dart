@@ -35,7 +35,9 @@ class _ButtonsBar extends State<ButtonsBar> {
           padding: UIConstants.paddingPlayButton,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(UIConstants.buttonBorderRadius),
-            border: Border.all(color: UIConstants.contrastColor),
+            border: Border.all(
+              color: UIConstants.contrastColor,
+            ),
           ),
           child: const Row(
             children: [

@@ -5,13 +5,14 @@ import '../../core/util/ui_constants.dart';
 class MovieListHeader extends StatelessWidget {
   const MovieListHeader({
     super.key,
+    required this.title,
   });
 
-  static const String title = 'Our movies';
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Text(
         title,
         style: UIConstants.titleTextStyle,
