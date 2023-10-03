@@ -13,4 +13,7 @@ class Genre {
       name: json['name'],
     );
   }
+
+  @override
+  bool operator ==(genre) => genre is Genre && genre.id == this.id;
 }

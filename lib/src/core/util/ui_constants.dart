@@ -21,6 +21,12 @@ abstract class UIConstants {
     fontFamily: 'Roboto',
     color: contrastColor,
   );
+  static const drawerTextStyle = TextStyle(
+    fontSize: 20,
+    fontFamily: 'Roboto',
+    color: contrastColor,
+    fontWeight: FontWeight.bold,
+  );
   static const lineSpace = SizedBox(
     height: 10,
   );
@@ -30,6 +36,10 @@ abstract class UIConstants {
   static const listIconSpace = SizedBox(
     width: 10,
   );
+  static const gridVerticalSpace = 5.0;
+  static const gridHorizontalSpace = 15.0;
+  static const gridAspectRatio = 1.2;
+  static const gridRowCount = 2;
   static const paddingPlayButton = EdgeInsets.fromLTRB(
     50,
     5,
